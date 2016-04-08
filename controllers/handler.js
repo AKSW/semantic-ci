@@ -15,7 +15,9 @@ module.exports = {
 };
 
 function checksyntax(request) {
-  fs.writeFile('temp.dat', request.payload.toString());
+  const timestamp = new Date();
+  const filename = 'tempfile_rapper_'+timestamp.getTime()+'.dat';
+  fs.writeFile(filename, request.payload.toString());
   let contentTypeParam = '-g';
   switch (request.mime) {
     case 'application/rdf+xml':
