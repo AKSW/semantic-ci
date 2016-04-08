@@ -9,12 +9,12 @@ module.exports = function(server) {
     path: '/validate',
     handler: handlers.validate,
     config: {
-      validate: {
-        payload: Joi.object(),
-      },
+//      validate: {
+//        payload: Joi.object(),
+//      },
       payload: {
-        parse: false,
-        allow: 'application/rdf+json,application/rdf+xml,application/trig,text/turtle,application/n-triples,application/n-quads,text/n3,application/ld+json'
+        parse: 'gunzip',
+        allow: ['application/rdf+json','application/rdf+xml','application/trig','text/turtle','application/n-triples','application/n-quads','text/n3','application/ld+json']
       },
       tags: ['api'],
       description: 'Velidate Semantic Data'
