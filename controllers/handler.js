@@ -15,15 +15,36 @@ module.exports = {
 };
 
 function checksyntax(request) {
-    switch (request.mime) {
-      case 'application/rdf+xml':
-        fs.writeFile('temp.dat', request.payload.toString());
-        return exec('rapper -g -o ntriples temp.dat');
-        break;
+  fs.writeFile('temp.dat', request.payload.toString());
+  let contentTypeParam = '-g';
+  switch (request.mime) {
+    case 'application/rdf+xml':
+      contentTypeParam = '-i rdfxml';
+      break;
+    case 'application/ld+json':
+    case 'application/rdf+json':
+      contentTypeParam = '-i json';
+      break;
+    case 'application/trig':
+      contentTypeParam = '-i trig';
+      break;
+    case 'application/turtle':
+      contentTypeParam = '-i turtle';
+      break;
+    case 'application/n-triples':
+      contentTypeParam = '-i ntriples';
+      break;
+    case 'application/n-quads':
+      contentTypeParam = '-i nquads';
+      break;
+    case 'text/n3':
+      //not supported with rapper/raptor
+      break;
 
-      default:
-        return (new Promise()).reject('WrongMimeType');
-    }
+    default:
+      return (new Promise()).reject('WrongMimeType');
+  }
+  return exec('rapper ' + contentTypeParam + ' -o ntriples temp.dat');
 }
 
 function checkliterals() {
