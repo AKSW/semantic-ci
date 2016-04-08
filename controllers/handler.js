@@ -8,9 +8,15 @@ module.exports = {
   validate: function(request, reply) {
     checksyntax(request) //.checkliterals().checkvocabs()
       .then((result) => {
-        reply(result);
+        reply({
+          output: result.stdout,
+          error: result.stderr
+        });
       })
-      .catch(() => reply(boom.badImplementation()));
+      .catch((error) => {
+        console.log('Error', error);
+        reply(boom.badImplementation());
+      });
   }
 };
 
@@ -49,10 +55,11 @@ function checksyntax(request) {
           return (new Promise()).reject('WrongMimeType');
       }
 
-      return exec('rapper ' + contentTypeParam + ' -o ntriples temp.dat');
+      return exec('rapper ' + contentTypeParam + ' -o ntriples ' + filename);
     })
     .catch((error) => {
-      return (new Promise()).reject('FailedWritingFile');
+      console.log('internal Error', error);
+      return Promise.reject('FailedWritingFile');
     });
 }
 

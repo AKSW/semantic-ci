@@ -17,7 +17,7 @@ module.exports = function(server) {
         allow: ['application/rdf+json','application/rdf+xml','application/trig','text/turtle','application/n-triples','application/n-quads','text/n3','application/ld+json']
       },
       tags: ['api'],
-      description: 'Velidate Semantic Data'
+      description: 'Validate Semantic Data'
     }
   });
 };
