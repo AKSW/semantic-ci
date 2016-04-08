@@ -14,24 +14,16 @@ module.exports = {
   }
 };
 
-function checksyntax() {
-  return new Promise((resolve, reject) => {
+function checksyntax(request) {
     switch (request.mime) {
       case 'application/rdf+xml':
         fs.writeFile('temp.dat', request.payload.toString());
-        exec('rapper -g -o ntriples temp.dat')
-          .then((result) => {
-            resolve(result);
-          })
-          .catch((err) => {
-            reject(err);
-          });
+        return exec('rapper -g -o ntriples temp.dat');
         break;
 
       default:
-        reject('WrongMimeType');
+        return (new Promise()).reject('WrongMimeType');
     }
-  });
 }
 
 function checkliterals() {
