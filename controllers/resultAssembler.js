@@ -4,16 +4,15 @@ let boom = require('boom');
 
 module.exports = {
   assembleResultMessage: function(result) {
-    //TODO geht nicht hier rein
     switch (result.stage) {
       case 'syntax':
-        return boom.badData('There are some erros in you Dataset.', listSyntaxErrors(result.message));
+        return boom.badData('There are some erros in you Dataset.\n' + listSyntaxErrors(result.message));
         break;
       case 'literals':
-        return boom.badData('There are some erros in you Dataset.', listLiteralErrors(result.message));
+        return boom.badData('There are some erros in you Dataset.\n' + listLiteralErrors(result.message));
         break;
       case 'vocabs':
-        return boom.badData('There are some erros in you Dataset.', listVocabErrors(result.message));
+        return boom.badData('There are some erros in you Dataset.\n' + listVocabErrors(result.message));
         break;
       default:
         return boom.badData('Seems your Data is wrong but I can\'t process is right. I\'m sorry for not listing any errors.');
@@ -22,17 +21,19 @@ module.exports = {
 };
 
 function listSyntaxErrors(text) {
-  let errs = text.split('\n').filter((line) => line.startsWith('rapper: Error')).map((line) => line.split(' - '));
-  return errs.map((arr) => {
+  let errorArray = text.split('\n')
+    .filter((line) => line.startsWith('rapper: Error'))
+    .map((line) => line.split(' - '));
+  return errorArray.map((arr) => {
     let file = arr[1].split(':');
-    return 'Syntax error at line: ' + file[file.length - 1] + '\n' + arr[2];
+    return ('Line: ' + file[file.length - 1] + ', ' + arr[2]);
   }).toString();
 }
 
 function listLiteralErrors(text) {
-
+  return text;
 }
 
 function listVocabErrors(text) {
-
+  return text;
 }
