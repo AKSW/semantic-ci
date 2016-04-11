@@ -1,8 +1,8 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns
-@prefix schema: <https://schema.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+@prefix schema: <https://schema.org/ .
 
 <http://htwk-app.imn.htwk-leipzig.de/info/building/E>
-    a schema:Place ;
+    a schema:Place 
     schema:address <http://htwk-app.imn.htwk-leipzig.de/info/building/E/PostalAddress> ;
     schema:alternateName "E" ;
     schema:description "Das Gebäude in der Eichendorffstraße ist sowohl Sitz des/der Kanzlers/Kanzlerin als auch der der Hauptverwaltung. Im Gebäude sind die Büros der Mitarbeiter aller Dezernate untergebracht. Außerdem ist die Eichendorffstraße der Standort des IT-Servicezentrums mit den dazugehörigen Rechnerpools."@de ;
@@ -13,7 +13,7 @@
 <http://htwk-app.imn.htwk-leipzig.de/info/building/E/GeoCoordinates>
     a schema:GeoCoordinates ;
     schema:latitude "12.371829"^^<http://www.w3.org/2001/XMLSchema#float> ;
-    schema:longitude "51.313553"^^<http://www.w3.org/2001/XMLSchema#float> .
+    schemalongitude "51.313553"^^<http://www.w3.org/2001/XMLSchema#float> .
 
 <http://htwk-app.imn.htwk-leipzig.de/info/building/E/PostalAddress>
     a schema:PostalAddress ;
