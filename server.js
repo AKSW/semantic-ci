@@ -4,13 +4,10 @@ const hapi = require('hapi'),
   co = require('./common');
 
 const server = new hapi.Server();
-let port2 = 3000;
-if (!co.isEmpty(process.env.APPLICATION_PORT)) {
-  port2 = process.env.APPLICATION_PORT;
-  console.log('Using port ' + port2 + ' as application port.');
-}
+let port = (!co.isEmpty(process.env.APPLICATION_PORT)) ? process.env.APPLICATION_PORT : 3000;
+let host = (!co.isEmpty(process.env.VIRTUAL_HOST)) ? process.env.VIRTUAL_HOST : server.info.host;
 server.connection({
-  port: port2
+  port: port
 });
 
 module.exports = server;
@@ -32,6 +29,7 @@ let plugins = [
   }, {
     register: require('hapi-swagger'),
     options: {
+      host: host,
       info: {
         title: 'Semantic-CI API',
         description: 'Powered by node, hapi, joi, hapi-swaggered, hapi-swaggered-ui and swagger-ui',

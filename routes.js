@@ -9,15 +9,20 @@ module.exports = function(server) {
     path: '/validate',
     handler: handlers.validate,
     config: {
-//      validate: {
-//        payload: Joi.object(),
-//      },
+      validate: {
+        payload: Joi.any().required(),
+      },
       payload: {
         parse: 'gunzip',
-        allow: ['application/rdf+json','application/rdf+xml','application/trig','text/turtle','application/n-triples','application/n-quads','text/n3','application/ld+json']
+        allow: ['application/rdf+json', 'application/rdf+xml', 'application/trig', 'text/turtle', 'application/n-triples', 'application/n-quads', 'text/n3', 'application/ld+json']
       },
       tags: ['api'],
-      description: 'Validate Semantic Data'
+      description: 'Validate Semantic Data',
+      plugins: {
+        'hapi-swagger': {
+          consumes: ['application/rdf+json', 'application/rdf+xml', 'application/trig', 'text/turtle', 'application/n-triples', 'application/n-quads', 'text/n3', 'application/ld+json']
+        }
+      },
     }
   });
 };
