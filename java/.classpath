@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="libs/jena-arq-3.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jena-base-3.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jena-core-3.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/jena-iri-3.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/jena-shaded-guava-3.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/jena-tdb-3.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jopt-simple-5.0.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
