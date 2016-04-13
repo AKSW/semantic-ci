@@ -13,7 +13,11 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CLI cli = new CLI(args);
+		try {
+			CLI cli = new CLI(args);
+		} catch (Exception e) {
+			return;
+		}
         
 		
 	}

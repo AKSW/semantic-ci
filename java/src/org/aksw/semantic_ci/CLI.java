@@ -35,10 +35,12 @@ public class CLI {
 				&& !options.valuesOf( "c" ).contains("cvdeep") 
 				&& !options.valuesOf( "c" ).contains("cl") 
 				&& !options.valuesOf( "c" ).contains("ct") 
-				&& !options.valuesOf( "c" ).contains("cdr"))
-			throw new Error("wrong value for parameter c!");
+				&& !options.valuesOf( "c" ).contains("cdr")
+			)
+			throw new Error("Wrong value for parameter c!");
 			
-		
+		if (!(options.has( "i" ) || options.has( "vocab" )))
+			throw new Error("Missing parameters!");
 	}
 	
 	public String getMode() {
@@ -46,7 +48,7 @@ public class CLI {
 	}
 	
 	public String getFileURI() {
-		return (String)options.valueOf("f");
+		return (String)options.valueOf("i");
 	}
 	
 	public String getVocabularyURI() {
