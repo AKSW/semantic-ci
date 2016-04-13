@@ -8,13 +8,15 @@ package org.aksw.semantic_ci;
  *
  */
 public class Main {
+	
+	static CLI cli;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		try {
-			CLI cli = new CLI(args);
+			cli = new CLI(args);
 		} catch (Exception e) {
 			return;
 		}
