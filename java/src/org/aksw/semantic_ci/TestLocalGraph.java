@@ -28,7 +28,7 @@ public class TestLocalGraph {
 			fail(e.getMessage());
 		}
 		
-		String[] namespaces = lg.getAllVocabs();
+		String[] namespaces = lg.getAllNamespaces();
 		
 		
 		for (int i = 0; i < namespaces.length; i++) {

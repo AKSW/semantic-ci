@@ -18,19 +18,19 @@ import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.FileManager;
 
 /**
- * @author kjunghanns 
- * Class which will be constructed with rdf, creates a graph
- * in memory and provides functionalities for validate the graph and run
- * SPARQL on it.
+ * @author kjunghanns Class which will be constructed with rdf, creates a graph
+ *         in memory and provides functionalities for validate the graph and run
+ *         SPARQL on it.
  * 
- * Needed functionality: 	check if vocabs are available in the www (direct with http or indirect in LOV) [1.c]
- * 							check if all used classes and properties of the vocabulary are existent [1.c]
- * 							check literals for correct datatypes (using regex) [1.d]
- * 							check for existing types of all resources (perhaps SPARQL) [2.a]
- * 							check range and domain of vocabs (perhaps SPARQL) [2.b]
+ *         Needed functionality: check if vocabs are available in the www
+ *         (direct with http or indirect in LOV) [1.c] check if all used classes
+ *         and properties of the vocabulary are existent [1.c] check literals
+ *         for correct datatypes (using regex) [1.d] check for existing types of
+ *         all resources (perhaps SPARQL) [2.a] check range and domain of vocabs
+ *         (perhaps SPARQL) [2.b]
  */
 public class LocalGraph {
-	
+
 	Model model;
 	Map<String, Set<String>> namespacesToNames;
 
@@ -47,54 +47,54 @@ public class LocalGraph {
 
 		// read the RDF N-Triple file
 		model.read(in, null, "N-TRIPLE");
-		
+
 		namespacesToNames = new HashMap<String, Set<String>>();
 	}
-	
+
 	private void addToMap(String namespace, String name) {
-		if (!namespacesToNames.containsKey(namespace))
-		{
+		if (!namespacesToNames.containsKey(namespace)) {
 			HashSet<String> set = new HashSet<String>();
 			set.add(name);
 			namespacesToNames.put(namespace, set);
-		}
-		else
+		} else
 			namespacesToNames.get(namespace).add(name);
 	}
 
-	public String[] getAllVocabs() {
-		
+	private void extractNamespacesAndNames() {
 		StmtIterator iter = model.listStatements();
-		
+
 		while (iter.hasNext()) {
-		    Statement r = iter.nextStatement();
-		    Triple triple = r.asTriple();
-		    
-		    Node[] nodes = new Node[2];
-		    
-		    nodes[0] = triple.getPredicate();
-		    nodes[1] = triple.getObject();
-		    //nodes[2] = triple.getSubject();
-		    
-		    for (int i = 0; i < 2; i++) {
-		    	Node node = nodes[i];
-		    	
-		    	if (!node.isBlank()
-		    			&& !node.isLiteral()
-		    			&& node.isURI()) 
-		    	{
-		    		String uri = "";
-				    try {
-				    	uri = node.getNameSpace();
-				    	addToMap(uri, node.getLocalName());
+			Statement r = iter.nextStatement();
+			Triple triple = r.asTriple();
+
+			Node[] nodes = new Node[2];
+
+			nodes[0] = triple.getPredicate();
+			nodes[1] = triple.getObject();
+			// nodes[2] = triple.getSubject();
+
+			for (int i = 0; i < 2; i++) {
+				Node node = nodes[i];
+
+				if (!node.isBlank() && !node.isLiteral() && node.isURI()) {
+					String uri = "";
+					try {
+						uri = node.getNameSpace();
+						addToMap(uri, node.getLocalName());
 					} catch (Exception e) {
-						
+
 					}
-		    	}
-		    }
-		    
+				}
+			}
+
 		}
+	}
+
+	public String[] getAllNamespaces() {
 		
+		if (namespacesToNames.isEmpty())
+			extractNamespacesAndNames();
+
 		return namespacesToNames.keySet().toArray(new String[0]);
 	}
 }
