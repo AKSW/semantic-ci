@@ -19,6 +19,7 @@ ADD ./ ./
 #   Configuration   #
 # ----------------- #
 
+ENV APPLICATION_PORT=80
 EXPOSE 80
 
 # ----------- #
