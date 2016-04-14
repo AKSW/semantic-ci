@@ -11,6 +11,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * @author kjunghanns
@@ -36,6 +42,10 @@ public class LOVGrapper {
 	String namespace;
 	
 	String JSONResponse;
+	
+	public String correctNamespace;
+	String correctURI;
+	String RDFURI;
 	
 	public LOVGrapper(String namespace) {
 		this.namespace = namespace;
@@ -89,6 +99,47 @@ public class LOVGrapper {
 	}
 	
 	private void parseJSON() {
+		JsonObject json = new JsonParser().parse(JSONResponse).getAsJsonObject();
 		
+		/*
+		//get keys
+		JsonArray keys = json.get("head").getAsJsonObject().get("vars").getAsJsonArray();
+		String[] keys_ = new String[3];
+		Iterator<JsonElement> it = keys.iterator();
+		int i = 0;
+		while(it.hasNext()) {
+			JsonElement element = it.next();
+			String key = element.getAsString();
+			keys_[i] = key;
+			i++;
+		}//*/
+		
+		//use keys to get values
+		JsonArray results = json.get("results").getAsJsonObject().get("bindings").getAsJsonArray();
+		Iterator<JsonElement> it = results.iterator();
+		while (it.hasNext()) {
+			JsonObject element = it.next().getAsJsonObject();
+			if (element.has("vocabNS")) {
+				correctNamespace = element.get("vocabNS").getAsJsonObject().get("value").getAsString();
+			}
+			else if (element.has("distURL")) {
+				RDFURI = element.get("distURL").getAsJsonObject().get("value").getAsString();
+			}
+			else if (element.has("vocabURI")) {
+				correctURI = element.get("vocabURI").getAsJsonObject().get("value").getAsString();
+			}
+		}
+	}
+	
+	public String fetchRDFURL() {
+		try {
+			doRequest();
+		} catch (IOException e) {
+			return null;
+		}
+		
+		parseJSON();
+		
+		return RDFURI;
 	}
 }
